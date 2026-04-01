@@ -6,7 +6,7 @@ group = "com.smileyoyo"
 version = "1.0.0"
 
 repositories {
-    // 使用阿里云镜像加速
+    // 阿里云镜像
     maven { url = uri("https://maven.aliyun.com/repository/public") }
     maven { url = uri("https://maven.aliyun.com/repository/central") }
     maven { url = uri("https://maven.aliyun.com/repository/gradle-plugin") }
@@ -24,7 +24,7 @@ dependencies {
     // JSON 处理
     implementation("com.google.code.gson:gson:2.10.1")
 
-    // 日志（JKook 已包含）
+    // 日志
     implementation("org.slf4j:slf4j-api:2.0.9")
 
     // Apache Commons
@@ -38,9 +38,19 @@ dependencies {
 tasks {
     compileJava {
         options.encoding = "UTF-8"
+        sourceCompatibility = "11"
+        targetCompatibility = "11"
     }
 
     jar {
         archiveFileName.set("kook-music-bot.jar")
+        
+        // 排除一些不需要打包的文件
+        exclude("**/*.kts")
+        exclude("gradle/**")
+        exclude(".git/**")
+        exclude(".gitignore")
+        exclude("README.md")
+        exclude("*.bat")
     }
 }
