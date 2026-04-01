@@ -1,5 +1,4 @@
 @echo off
-chcp 65001 >nul
 
 echo ========================================
 echo   KOOK Music Bot - Build & Install
@@ -8,8 +7,8 @@ echo.
 
 cd /d "%~dp0"
 
-REM 编译
+REM Build
 call build.bat
 
-REM 安装
+REM Install
 call install.bat

@@ -1,5 +1,4 @@
 @echo off
-chcp 65001 >nul
 
 echo ========================================
 echo   KOOK Music Bot - Build
@@ -8,33 +7,33 @@ echo.
 
 cd /d "%~dp0"
 
-REM 检查 gradle-wrapper.jar
+REM Check gradle-wrapper.jar
 if not exist "gradle\wrapper\gradle-wrapper.jar" (
-    echo [错误] 缺少 gradle-wrapper.jar
-    echo 请运行: gradlew.bat
+    echo [ERROR] gradle-wrapper.jar not found
+    echo Please run: gradlew.bat
     echo.
     pause
     exit /b 1
 )
 
-REM 编译
-echo [1/2] 清理...
+REM Build
+echo [1/2] Cleaning...
 call gradlew.bat clean
-echo [2/2] 编译...
+echo [2/2] Building...
 call gradlew.bat build
 
 if errorlevel 1 (
     echo.
-    echo [错误] 编译失败
+    echo [ERROR] Build failed
     pause
     exit /b 1
 )
 
 echo.
 echo ========================================
-echo   成功！
+echo   SUCCESS!
 echo ========================================
-echo 输出: build\libs\kook-music-bot.jar
+echo Output: build\libs\kook-music-bot.jar
 echo.
 
 pause
