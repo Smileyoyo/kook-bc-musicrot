@@ -8,17 +8,21 @@ echo.
 cd /d "%~dp0"
 
 REM Check if Gradle Wrapper files exist
+echo [Checking] Gradle Wrapper...
 if not exist "gradle\wrapper\gradle-wrapper.jar" (
-    if not exist "gradle\wrapper\gradle-wrapper.properties" (
-        echo [INFO] Gradle Wrapper not initialized
-        echo.
-        echo Please run: init-gradle.bat
-        echo This will download the necessary files.
-        echo.
-        pause
-        exit /b 1
-    )
+    echo [MISSING] gradle-wrapper.jar
+    echo.
+    goto init_needed
 )
+
+if not exist "gradle\wrapper\gradle-wrapper.properties" (
+    echo [MISSING] gradle-wrapper.properties
+    echo.
+    goto init_needed
+)
+
+echo [OK] All files found
+echo.
 
 REM Build
 echo [1/2] Cleaning...
@@ -43,5 +47,14 @@ echo   SUCCESS!
 echo ========================================
 echo Output: build\libs\kook-music-bot.jar
 echo.
-
 pause
+exit /b 0
+
+:init_needed
+echo [INFO] Gradle Wrapper files are missing
+echo.
+echo Please run: init-gradle.bat
+echo This will download the necessary files.
+echo.
+pause
+exit /b 1
