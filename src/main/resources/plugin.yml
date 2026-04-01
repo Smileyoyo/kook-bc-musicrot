@@ -1,0 +1,5 @@
+name: kook-music-bot
+version: 1.0.0
+main: com.smileyoyo.kook.music.KookMusicPlugin
+author: Smileyoyo
+description: KOOK 音乐机器人 - 支持网易云、QQ音乐、Bilibili 点歌
