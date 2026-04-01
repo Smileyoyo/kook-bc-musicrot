@@ -7,18 +7,21 @@ echo.
 
 cd /d "%~dp0"
 
-REM Check gradle-wrapper.jar
+REM Check if Gradle Wrapper files exist
 if not exist "gradle\wrapper\gradle-wrapper.jar" (
-    echo [INFO] gradle-wrapper.jar not found
-    echo Running init-gradle.bat first...
-    echo.
-    call init-gradle.bat
-    if errorlevel 1 (
+    if not exist "gradle\wrapper\gradle-wrapper.properties" (
+        echo [INFO] Gradle Wrapper not initialized
+        echo Running init-gradle.bat first...
         echo.
-        echo [ERROR] Init failed
-        echo Try Maven instead: build-maven.bat
-        pause
-        exit /b 1
+        call init-gradle.bat
+        if errorlevel 1 (
+            echo.
+            echo [ERROR] Init failed
+            echo Please check your network connection
+            echo.
+            pause
+            exit /b 1
+        )
     )
 )
 

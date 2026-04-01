@@ -7,25 +7,31 @@ echo.
 
 cd /d "%~dp0"
 
-REM Check gradle-wrapper.jar
+REM Check if Gradle Wrapper files exist
 if not exist "gradle\wrapper\gradle-wrapper.jar" (
-    echo [ERROR] gradle-wrapper.jar not found
-    echo.
-    echo Please run: init-gradle.bat
-    echo This will download the necessary files.
-    echo.
-    pause
-    exit /b 1
+    if not exist "gradle\wrapper\gradle-wrapper.properties" (
+        echo [INFO] Gradle Wrapper not initialized
+        echo.
+        echo Please run: init-gradle.bat
+        echo This will download the necessary files.
+        echo.
+        pause
+        exit /b 1
+    )
 )
 
 REM Build
 echo [1/2] Cleaning...
 call gradlew.bat clean
+if errorlevel 1 (
+    echo [ERROR] Clean failed
+    pause
+    exit /b 1
+)
+
 echo [2/2] Building...
 call gradlew.bat build
-
 if errorlevel 1 (
-    echo.
     echo [ERROR] Build failed
     pause
     exit /b 1
