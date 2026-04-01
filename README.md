@@ -50,6 +50,7 @@ KOOK 音乐机器人是一个功能完整的音乐点歌插件，支持三大主
 
 ### 必需环境
 - **Java**: 11 或更高版本
+- **Gradle**: 8.5 或更高版本
 - **KookBC**: 0.33.0 或更高版本
 
 ### 推荐环境
@@ -68,41 +69,33 @@ git clone https://github.com/Smileyoyo/kook-bc-musicrot.git
 cd kook-bc-musicrot
 ```
 
-### 2. 首次使用：初始化 Gradle
+### 2. 下载 Gradle Wrapper 文件
 
-```powershell
-init-gradle.bat
-```
+如果 `gradle\wrapper\` 目录为空，需要下载两个文件：
 
-这会自动下载必要的文件（约 50KB）。
+**下载地址**：
+1. https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.jar
+2. https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.properties
+
+保存到 `gradle\wrapper\` 目录。
 
 ### 3. 编译项目
 
 ```powershell
-build.bat
+gradlew.bat build
 ```
 
 ### 4. 安装插件
 
 ```powershell
-install.bat
+copy build\libs\kook-music-bot.jar [KookBC目录]\plugins\
 ```
-
-JAR 文件会自动复制到 `plugins` 文件夹。
 
 ### 5. 启动 KookBC
 
 ```powershell
 cd [KookBC目录]
 java -jar kookbc-0.33.0.jar
-```
-
-### 一键操作
-
-也可以直接运行：
-
-```powershell
-build-and-install.bat
 ```
 
 ---
@@ -184,10 +177,11 @@ kook-bc-musicrot/
 │       └── CommandListener.java     # 命令监听器
 ├── src/main/resources/
 │   └── plugin.yml                   # 插件清单
-├── init-gradle.bat                 # Gradle 初始化
-├── build.bat                        # Gradle 编译
-├── install.bat                      # 安装插件
-├── build-and-install.bat            # 一键编译安装
+├── gradle/
+│   └── wrapper/
+│       ├── gradle-wrapper.jar       # Gradle Wrapper
+│       └── gradle-wrapper.properties # Gradle 配置
+├── gradlew.bat                      # Gradle 脚本
 ├── build.gradle.kts                 # Gradle 配置
 └── README.md                        # 说明文档
 ```
@@ -235,40 +229,27 @@ kook-bc-musicrot/
 
 ## 常见问题
 
-### Q1: gradlew.bat 闪退？
+### Q1: gradlew.bat 报错缺少 gradle-wrapper.properties？
 
-**A**: 这是首次使用，缺少 `gradle-wrapper.jar` 文件导致的。
+**A**: 需要下载 Gradle Wrapper 文件。
 
-**解决方法**：
+**下载地址**：
+1. https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.jar
+2. https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.properties
 
-运行初始化脚本：
+保存到 `gradle\wrapper\` 目录。
 
-```powershell
-init-gradle.bat
-```
-
-这会自动下载 `gradle-wrapper.jar` 文件（约 50KB）。
-
-下载完成后，再运行：
-
-```powershell
-build.bat
-```
-
-### Q2: init-gradle.bat 下载失败？
-
-**A**: 可以手动下载：
-
-1. 访问：https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.jar
-2. 保存到：`gradle\wrapper\gradle-wrapper.jar`
-
-### Q3: 编译失败，提示找不到 Java？
+### Q2: 编译失败，提示找不到 Java？
 
 **A**: 确保已安装 Java 11 或更高版本。
 
 ```powershell
 java -version
 ```
+
+### Q3: 编译失败，提示找不到 JKook API？
+
+**A**: JKook API 由 KookBC 提供，使用 `compileOnly` 依赖。确保在 KookBC 环境中使用。
 
 ### Q4: 点歌后没有播放？
 
@@ -289,8 +270,8 @@ java -version
 
 **A**:
 1. 拉取最新代码：`git pull`
-2. 重新编译：`build.bat`
-3. 重新安装：`install.bat`
+2. 重新编译：`gradlew.bat build`
+3. 重新安装：复制到 plugins 文件夹
 4. 重启 KookBC
 
 ---
@@ -319,7 +300,6 @@ java -version
 - [x] 队列管理系统
 - [x] 卡片显示功能
 - [x] 播放控制命令
-- [x] Gradle 自动初始化
 
 ### 待开发
 - [ ] 对接真实音乐API
