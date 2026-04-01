@@ -30,7 +30,7 @@ init-wrapper.bat
 
 This will download `gradle-wrapper.jar` (about 50KB).
 
-### 3. Build Project
+### 3. Build and Install
 
 #### Option 1: Gradle (Recommended)
 
@@ -38,10 +38,17 @@ This will download `gradle-wrapper.jar` (about 50KB).
 build-and-install.bat
 ```
 
+This will automatically:
+1. Build the project
+2. Find KookBC directory
+3. Copy the JAR file to `modules` folder
+
+**If auto-detection fails**, it will ask you to enter the KookBC path.
+
 Or step by step:
 ```powershell
 build.bat
-install.bat
+install-auto.bat
 ```
 
 #### Option 2: Maven
@@ -49,6 +56,22 @@ install.bat
 ```powershell
 build-maven.bat
 install-maven.bat
+```
+
+#### Option 3: Manual Install
+
+If automatic installation doesn't work:
+
+```powershell
+# 1. Create modules directory
+mkdir [KookBC目录]\modules
+
+# 2. Copy JAR file
+copy build\libs\kook-music-bot.jar [KookBC目录]\modules\
+
+# 3. Run KookBC
+cd [KookBC目录]
+java -jar kookbc-0.33.0.jar
 ```
 
 ### 4. Run KookBC

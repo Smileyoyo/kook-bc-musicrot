@@ -33,4 +33,4 @@ if errorlevel 1 (
 
 echo.
 echo [Step 2] Installing...
-call install.bat
+call install-auto.bat
