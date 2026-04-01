@@ -11,12 +11,19 @@ cd /d "%~dp0"
 echo 当前目录: %CD%
 echo.
 
-REM 检查 Gradle Wrapper
+REM 检查 Wrapper 文件
 if not exist "gradlew.bat" (
     echo [错误] 未找到 gradlew.bat
     echo 请确保在项目根目录运行此脚本
     pause
     exit /b 1
+)
+
+REM 检查首次运行
+if not exist "gradle\wrapper\gradle-wrapper.jar" (
+    echo [提示] 首次运行，正在下载 Gradle Wrapper...
+    echo 这可能需要几分钟，请耐心等待...
+    echo.
 )
 
 REM 清理之前的构建
@@ -38,7 +45,7 @@ if errorlevel 1 (
     echo.
     echo 请检查：
     echo   1. 是否已安装 Java 11 或更高版本
-    echo   2. 是否已安装 JKook API 到本地 Maven 仓库
+    echo   2. 网络连接是否正常（需要下载依赖）
     echo.
     pause
     exit /b 1
