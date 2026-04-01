@@ -50,13 +50,12 @@ KOOK 音乐机器人是一个功能完整的音乐点歌插件，支持三大主
 
 ### 必需环境
 - **Java**: 11 或更高版本
-- **Gradle**: 8.5 或更高版本
 - **KookBC**: 0.33.0 或更高版本
+- **KookBC jar**: 编译时需要
 
 ### 推荐环境
 - Windows 10/11
 - 至少 2GB 可用内存
-- 稳定的网络连接
 
 ---
 
@@ -69,29 +68,22 @@ git clone https://github.com/Smileyoyo/kook-bc-musicrot.git
 cd kook-bc-musicrot
 ```
 
-### 2. 下载 Gradle Wrapper 文件
+### 2. 编译项目
 
-如果 `gradle\wrapper\` 目录为空，需要下载两个文件：
-
-**下载地址**：
-1. https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.jar
-2. https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.properties
-
-保存到 `gradle\wrapper\` 目录。
-
-### 3. 编译项目
+运行编译脚本：
 
 ```powershell
-gradlew.bat build
+compile.bat
 ```
 
-### 4. 安装插件
+**编译脚本会自动**：
+- 查找 KookBC jar 文件
+- 下载所需依赖
+- 编译 Java 源代码
+- 创建 JAR 文件
+- 复制到 plugins 文件夹
 
-```powershell
-copy build\libs\kook-music-bot.jar [KookBC目录]\plugins\
-```
-
-### 5. 启动 KookBC
+### 3. 启动 KookBC
 
 ```powershell
 cd [KookBC目录]
@@ -177,12 +169,8 @@ kook-bc-musicrot/
 │       └── CommandListener.java     # 命令监听器
 ├── src/main/resources/
 │   └── plugin.yml                   # 插件清单
-├── gradle/
-│   └── wrapper/
-│       ├── gradle-wrapper.jar       # Gradle Wrapper
-│       └── gradle-wrapper.properties # Gradle 配置
-├── gradlew.bat                      # Gradle 脚本
-├── build.gradle.kts                 # Gradle 配置
+├── compile.bat                      # 编译脚本
+├── build.gradle.kts                 # Gradle 配置（备用）
 └── README.md                        # 说明文档
 ```
 
@@ -195,7 +183,6 @@ kook-bc-musicrot/
 | KookBC | 0.33.0 | KOOK 客户端 |
 | OkHttp | 4.12.0 | HTTP 客户端 |
 | Gson | 2.10.1 | JSON 处理 |
-| Gradle | 8.5 | 构建工具 |
 
 ### 核心组件
 
@@ -229,15 +216,13 @@ kook-bc-musicrot/
 
 ## 常见问题
 
-### Q1: gradlew.bat 报错缺少 gradle-wrapper.properties？
+### Q1: 编译脚本找不到 KookBC jar？
 
-**A**: 需要下载 Gradle Wrapper 文件。
+**A**: 编译脚本会自动查找常见位置的 KookBC jar。如果没有找到，会提示你输入路径。
 
-**下载地址**：
-1. https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.jar
-2. https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.properties
-
-保存到 `gradle\wrapper\` 目录。
+支持的位置：
+- `..\kookbc-0.33.0.jar`
+- `E:\后台\后台\kookbot\kookbc-0.33.0.jar`
 
 ### Q2: 编译失败，提示找不到 Java？
 
@@ -247,9 +232,11 @@ kook-bc-musicrot/
 java -version
 ```
 
-### Q3: 编译失败，提示找不到 JKook API？
+### Q3: 编译失败，提示编译错误？
 
-**A**: JKook API 由 KookBC 提供，使用 `compileOnly` 依赖。确保在 KookBC 环境中使用。
+**A**: 检查错误信息，可能是：
+1. Java 源代码有语法错误
+2. 依赖下载失败
 
 ### Q4: 点歌后没有播放？
 
@@ -270,9 +257,8 @@ java -version
 
 **A**:
 1. 拉取最新代码：`git pull`
-2. 重新编译：`gradlew.bat build`
-3. 重新安装：复制到 plugins 文件夹
-4. 重启 KookBC
+2. 重新编译：`compile.bat`
+3. 重启 KookBC
 
 ---
 
@@ -300,6 +286,7 @@ java -version
 - [x] 队列管理系统
 - [x] 卡片显示功能
 - [x] 播放控制命令
+- [x] javac 编译脚本
 
 ### 待开发
 - [ ] 对接真实音乐API
