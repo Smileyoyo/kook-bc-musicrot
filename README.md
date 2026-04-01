@@ -70,32 +70,31 @@ cd kook-bc-musicrot
 
 ### 2. 编译项目
 
-#### 方式 1：使用 Maven（推荐）
+#### 方式 1：使用 Gradle（推荐）
+
+首次使用需要初始化 Gradle Wrapper：
 
 ```powershell
-build-maven.bat
+init-gradle.bat
 ```
 
-需要先安装 Maven 3.8+：
-- 下载地址：https://maven.apache.org/download.cgi
-
-#### 方式 2：使用 Gradle
-
-首先检查环境：
-
-```powershell
-setup.bat
-```
-
-如果提示缺少 `gradle-wrapper.jar`，需要手动下载：
-1. 访问：https://github.com/gradle/gradle/raw/v8.5.0/gradle/wrapper/gradle-wrapper.jar
-2. 保存到：`gradle\wrapper\gradle-wrapper.jar`
+这会自动下载必要的文件（约 50KB）。
 
 然后编译：
 
 ```powershell
 build.bat
 ```
+
+#### 方式 2：使用 Maven（备选）
+
+如果 Gradle 有问题，可以使用 Maven：
+
+```powershell
+build-maven.bat
+```
+
+需要先安装 Maven 3.8+。
 
 ### 3. 安装插件
 
@@ -191,10 +190,11 @@ kook-bc-musicrot/
 │       └── CommandListener.java     # 命令监听器
 ├── src/main/resources/
 │   └── plugin.yml                   # 插件清单
+├── init-gradle.bat                 # Gradle 初始化
 ├── build.bat                        # Gradle 编译
 ├── build-maven.bat                  # Maven 编译
 ├── install.bat                      # 安装插件
-├── setup.bat                        # 环境检查
+├── build-and-install.bat            # 一键编译安装
 └── README.md                        # 说明文档
 ```
 
@@ -207,8 +207,8 @@ kook-bc-musicrot/
 | KookBC | 0.33.0 | KOOK 客户端 |
 | OkHttp | 4.12.0 | HTTP 客户端 |
 | Gson | 2.10.1 | JSON 处理 |
-| Maven | 3.8+ | 构建工具（推荐） |
-| Gradle | 8.5 | 构建工具（备选） |
+| Gradle | 8.5 | 构建工具（推荐） |
+| Maven | 3.8+ | 构建工具（备选） |
 
 ### 核心组件
 
@@ -244,20 +244,36 @@ kook-bc-musicrot/
 
 ### Q1: gradlew.bat 闪退？
 
-**A**: 这是缺少 `gradle-wrapper.jar` 文件导致的。
+**A**: 这是首次使用，缺少 `gradle-wrapper.jar` 文件导致的。
 
 **解决方法**：
 
-**方法 1**：使用 Maven 编译（推荐）
+运行初始化脚本：
+
 ```powershell
-build-maven.bat
-install.bat
+init-gradle.bat
 ```
 
-**方法 2**：手动下载 gradle-wrapper.jar
-1. 访问：https://github.com/gradle/gradle/raw/v8.5.0/gradle/wrapper/gradle-wrapper.jar
+这会自动下载 `gradle-wrapper.jar` 文件（约 50KB）。
+
+下载完成后，再运行：
+
+```powershell
+build.bat
+```
+
+### Q2: init-gradle.bat 下载失败？
+
+**A**: 可以手动下载：
+
+1. 访问：https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.jar
 2. 保存到：`gradle\wrapper\gradle-wrapper.jar`
-3. 运行：`build.bat`
+
+或者使用 Maven 编译：
+
+```powershell
+build-maven.bat
+```
 
 ### Q2: 编译失败，提示找不到 Java？
 
@@ -327,7 +343,8 @@ mvn -version
 - [x] 队列管理系统
 - [x] 卡片显示功能
 - [x] 播放控制命令
-- [x] Maven 编译支持
+- [x] Gradle 自动初始化
+- [x] Maven 备用编译
 
 ### 待开发
 - [ ] 对接真实音乐API

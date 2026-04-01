@@ -10,7 +10,9 @@ cd /d "%~dp0"
 REM Check gradle-wrapper.jar
 if not exist "gradle\wrapper\gradle-wrapper.jar" (
     echo [ERROR] gradle-wrapper.jar not found
-    echo Please run: gradlew.bat
+    echo.
+    echo Please run: init-gradle.bat
+    echo This will download the necessary files.
     echo.
     pause
     exit /b 1
