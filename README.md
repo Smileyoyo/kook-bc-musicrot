@@ -68,11 +68,7 @@ git clone https://github.com/Smileyoyo/kook-bc-musicrot.git
 cd kook-bc-musicrot
 ```
 
-### 2. 编译项目
-
-#### 方式 1：使用 Gradle（推荐）
-
-首次使用需要初始化 Gradle Wrapper：
+### 2. 首次使用：初始化 Gradle
 
 ```powershell
 init-gradle.bat
@@ -80,23 +76,13 @@ init-gradle.bat
 
 这会自动下载必要的文件（约 50KB）。
 
-然后编译：
+### 3. 编译项目
 
 ```powershell
 build.bat
 ```
 
-#### 方式 2：使用 Maven（备选）
-
-如果 Gradle 有问题，可以使用 Maven：
-
-```powershell
-build-maven.bat
-```
-
-需要先安装 Maven 3.8+。
-
-### 3. 安装插件
+### 4. 安装插件
 
 ```powershell
 install.bat
@@ -104,11 +90,19 @@ install.bat
 
 JAR 文件会自动复制到 `plugins` 文件夹。
 
-### 4. 启动 KookBC
+### 5. 启动 KookBC
 
 ```powershell
 cd [KookBC目录]
 java -jar kookbc-0.33.0.jar
+```
+
+### 一键操作
+
+也可以直接运行：
+
+```powershell
+build-and-install.bat
 ```
 
 ---
@@ -192,9 +186,9 @@ kook-bc-musicrot/
 │   └── plugin.yml                   # 插件清单
 ├── init-gradle.bat                 # Gradle 初始化
 ├── build.bat                        # Gradle 编译
-├── build-maven.bat                  # Maven 编译
 ├── install.bat                      # 安装插件
 ├── build-and-install.bat            # 一键编译安装
+├── build.gradle.kts                 # Gradle 配置
 └── README.md                        # 说明文档
 ```
 
@@ -207,8 +201,7 @@ kook-bc-musicrot/
 | KookBC | 0.33.0 | KOOK 客户端 |
 | OkHttp | 4.12.0 | HTTP 客户端 |
 | Gson | 2.10.1 | JSON 处理 |
-| Gradle | 8.5 | 构建工具（推荐） |
-| Maven | 3.8+ | 构建工具（备选） |
+| Gradle | 8.5 | 构建工具 |
 
 ### 核心组件
 
@@ -269,29 +262,12 @@ build.bat
 1. 访问：https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.jar
 2. 保存到：`gradle\wrapper\gradle-wrapper.jar`
 
-或者使用 Maven 编译：
-
-```powershell
-build-maven.bat
-```
-
-### Q2: 编译失败，提示找不到 Java？
+### Q3: 编译失败，提示找不到 Java？
 
 **A**: 确保已安装 Java 11 或更高版本。
 
 ```powershell
 java -version
-```
-
-### Q3: Maven 命令找不到？
-
-**A**: 需要先安装 Maven 3.8+。
-
-下载地址：https://maven.apache.org/download.cgi
-
-安装后验证：
-```powershell
-mvn -version
 ```
 
 ### Q4: 点歌后没有播放？
@@ -313,7 +289,7 @@ mvn -version
 
 **A**:
 1. 拉取最新代码：`git pull`
-2. 重新编译：`build-maven.bat`
+2. 重新编译：`build.bat`
 3. 重新安装：`install.bat`
 4. 重启 KookBC
 
@@ -344,7 +320,6 @@ mvn -version
 - [x] 卡片显示功能
 - [x] 播放控制命令
 - [x] Gradle 自动初始化
-- [x] Maven 备用编译
 
 ### 待开发
 - [ ] 对接真实音乐API
