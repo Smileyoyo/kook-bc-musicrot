@@ -2,27 +2,35 @@
 chcp 65001 >nul
 
 echo ========================================
-echo   KOOK 音乐机器人 - 一键编译安装
+echo   KOOK Music Bot - Build and Install
 echo ========================================
 echo.
 
-REM 检查首次运行
+REM Check gradle-wrapper.jar
 if not exist "gradle\wrapper\gradle-wrapper.jar" (
-    echo [提示] 首次运行，正在下载 Gradle Wrapper...
-    echo 这可能需要几分钟，请耐心等待...
+    echo [WARNING] gradle-wrapper.jar not found
+    echo Running init-wrapper.bat first...
     echo.
+    call init-wrapper.bat
+    if errorlevel 1 (
+        echo.
+        echo [ERROR] Init failed
+        echo Try Maven instead: build-maven.bat
+        pause
+        exit /b 1
+    )
 )
 
-REM 编译
-echo [步骤 1] 编译项目...
+REM Build
+echo [Step 1] Building...
 call build.bat
 if errorlevel 1 (
     echo.
-    echo [错误] 编译失败
+    echo [ERROR] Build failed
     pause
     exit /b 1
 )
 
 echo.
-echo [步骤 2] 安装插件...
+echo [Step 2] Installing...
 call install.bat

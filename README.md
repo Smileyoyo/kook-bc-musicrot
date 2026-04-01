@@ -1,145 +1,150 @@
-# KOOK 音乐机器人 (Java 版本)
+# KOOK Music Bot (Java Version)
 
-基于 JKook API 和 KookBC 开发的 KOOK 音乐机器人框架。
+A KOOK music bot framework built with JKook API and KookBC.
 
-## 当前状态
+## Current Status
 
-✅ **编译成功** - 插件框架可以正常编译和加载到 KookBC
-⏳ **功能开发中** - 需要继续开发音乐点歌功能
+✅ Build successful - Plugin framework can be compiled and loaded into KookBC
+⏳ Feature development - Music functions to be developed
 
-## 快速开始（Windows）
+## Quick Start (Windows)
 
-### 前置要求
+### Requirements
 
-- ✅ Java 11 或更高版本
-- ✅ 网络连接（下载依赖）
+- ✅ Java 11 or higher
+- ✅ Network connection (for dependencies)
 
-### 1. 克隆项目
-
-```powershell
-git clone https://github.com/Smileyoyo/kook-bc-musicrot.git E:\后台\后台\kook-bc-musicrot
-```
-
-### 2. 检查环境
+### 1. Clone Project
 
 ```powershell
-check-env.bat
+git clone https://github.com/Smileyoyo/kook-bc-musicrot.git E:\kook-bc-musicrot
 ```
 
-### 3. 编译项目
+### 2. Initialize Gradle Wrapper
 
-#### 方式 1：使用 Gradle（推荐）
+**For first-time use with Gradle:**
+
+```powershell
+init-wrapper.bat
+```
+
+This will download `gradle-wrapper.jar` (about 50KB).
+
+### 3. Build Project
+
+#### Option 1: Gradle (Recommended)
 
 ```powershell
 build-and-install.bat
 ```
 
-**首次运行**：会自动下载 Gradle Wrapper（约 100MB），需要几分钟，请耐心等待。
+Or step by step:
+```powershell
+build.bat
+install.bat
+```
 
-#### 方式 2：使用 Maven
+#### Option 2: Maven
 
 ```powershell
 build-maven.bat
 install-maven.bat
 ```
 
-### 4. 启动 KookBC
+### 4. Run KookBC
 
 ```powershell
 cd C:\KookBC
 java -jar kookbc-0.33.0.jar
 ```
 
-## 构建方式
+## Build Methods
 
 ### Gradle
 
-| 脚本 | 说明 |
-|------|------|
-| `check-env.bat` | 检查 Java 环境 |
-| `build.bat` | 编译项目 |
-| `install.bat` | 安装到 KookBC |
-| `build-and-install.bat` | 一键编译和安装 |
+| Script | Description |
+|--------|-------------|
+| `init-wrapper.bat` | Initialize Gradle Wrapper (first time only) |
+| `check-env.bat` | Check Java environment |
+| `build.bat` | Build project |
+| `install.bat` | Install to KookBC |
+| `build-and-install.bat` | One-click build and install |
 
 ### Maven
 
-| 脚本 | 说明 |
-|------|------|
-| `build-maven.bat` | 编译项目 |
-| `install-maven.bat` | 安装到 KookBC |
+| Script | Description |
+|--------|-------------|
+| `build-maven.bat` | Build project |
+| `install-maven.bat` | Install to KookBC |
 
-## 常见问题
+## Common Issues
 
-### Q: 首次运行显示"正在下载 Gradle Wrapper"
-**A:** 这是正常的，Gradle 会自动下载必要的文件（约 100MB），需要几分钟。
+### Q: "gradle-wrapper.jar not found"
+**A:** Run `init-wrapper.bat` to download it.
 
-### Q: 编译失败，提示找不到 Java
+### Q: Download failed
 **A:**
-1. 检查是否安装 Java 11 或更高版本
-2. 运行 `check-env.bat` 检查环境
-3. 设置 JAVA_HOME 环境变量
+1. Check network connection
+2. Try Maven instead: `build-maven.bat`
+3. Or manually download from:
+   https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.jar
 
-### Q: 编译失败，提示找不到 JKook API
+### Q: "Java not found"
 **A:**
-1. 检查网络连接
-2. 已配置阿里云镜像加速
-3. 如果仍然失败，尝试使用 Maven 编译
+1. Install Java 11+: https://adoptium.net/
+2. Run `check-env.bat` to verify
+3. Set JAVA_HOME environment variable
 
-### Q: Gradle 下载很慢或失败
+### Q: Build failed
 **A:**
-1. 使用 Maven 方式编译（`build-maven.bat`）
-2. 检查网络连接
-3. 配置代理（如果有）
+1. Check Java version (11+)
+2. Check network connection
+3. Try Maven instead: `build-maven.bat`
 
-### Q: Maven 编译失败
+### Q: KookBC didn't load plugin
 **A:**
-1. 检查是否安装 Maven
-2. 运行 `mvn -version` 验证
-3. 下载 Maven: https://maven.apache.org/download.cgi
+1. Check JAR is in `modules` directory
+2. Check KookBC version (0.33.0+)
+3. Check console logs for errors
 
-### Q: 启动 KookBC 后没有加载插件
-**A:**
-1. 检查 JAR 文件是否在 `modules` 目录
-2. 检查 KookBC 版本是否为 0.33.0 或更高
-3. 查看控制台日志，寻找错误信息
-
-## 技术栈
+## Tech Stack
 
 - **Java**: 11+
-- **JKook API**: 0.54.2（由 KookBC 提供）
+- **JKook API**: 0.54.2 (provided by KookBC)
 - **KookBC**: 0.33.0
-- **OkHttp**: HTTP 客户端
-- **Gson**: JSON 处理
-- **Gradle**: 8.5（推荐）
-- **Maven**: 3.8+（备用）
+- **OkHttp**: HTTP client
+- **Gson**: JSON parsing
+- **Gradle**: 8.5 (recommended)
+- **Maven**: 3.8+ (alternative)
 
-## 功能计划
+## Features Plan
 
-- [ ] 基础框架
-- [ ] 歌曲解析（网易云、QQ音乐、Bilibili）
-- [ ] 队列管理
-- [ ] 点歌命令
-- [ ] 播放控制
-- [ ] 卡片交互
+- [ ] Basic framework
+- [ ] Music parsing (NetEase, QQ, Bilibili)
+- [ ] Queue management
+- [ ] Command handling
+- [ ] Playback control
+- [ ] Card interaction
 
-## 相关资源
+## Resources
 
 - JKook API: https://github.com/SNWCreations/JKook
 - KookBC: https://github.com/SNWCreations/KookBC
-- KOOK 开发者: https://developer.kookapp.cn
+- KOOK Developer: https://developer.kookapp.cn
 
-## 开发日志
+## Change Log
 
 ### 2026-04-02
-- ✅ 创建干净的项目结构
-- ✅ 配置 Gradle 构建
-- ✅ 添加 Gradle Wrapper 支持
-- ✅ 添加 Maven 备用方案
-- ✅ 添加国内镜像加速
-- ✅ 创建环境检查脚本
-- ✅ 创建 Windows 批处理脚本
-- ⏳ 继续开发功能
+- ✅ Create clean project structure
+- ✅ Configure Gradle build
+- ✅ Add Gradle Wrapper support
+- ✅ Add Maven alternative
+- ✅ Add Chinese mirrors for dependencies
+- ✅ Add environment check script
+- ✅ Add Windows batch scripts
+- ✅ Add initialization script for Gradle Wrapper
+- ⏳ Continue feature development
 
-## 许可证
+## License
 
 MIT License
