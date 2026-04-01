@@ -6,8 +6,12 @@ group = "com.smileyoyo"
 version = "1.0.0"
 
 repositories {
-    mavenCentral()
+    // 使用阿里云镜像加速
+    maven { url = uri("https://maven.aliyun.com/repository/public") }
+    maven { url = uri("https://maven.aliyun.com/repository/central") }
+    maven { url = uri("https://maven.aliyun.com/repository/gradle-plugin") }
     maven { url = uri("https://jitpack.io") }
+    mavenCentral()
 }
 
 dependencies {
