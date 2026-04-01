@@ -65,12 +65,35 @@ KOOK 音乐机器人是一个功能完整的音乐点歌插件，支持三大主
 
 ```powershell
 git clone https://github.com/Smileyoyo/kook-bc-musicrot.git
+cd kook-bc-musicrot
 ```
 
 ### 2. 编译项目
 
+#### 方式 1：使用 Maven（推荐）
+
 ```powershell
-cd kook-bc-musicrot
+build-maven.bat
+```
+
+需要先安装 Maven 3.8+：
+- 下载地址：https://maven.apache.org/download.cgi
+
+#### 方式 2：使用 Gradle
+
+首先检查环境：
+
+```powershell
+setup.bat
+```
+
+如果提示缺少 `gradle-wrapper.jar`，需要手动下载：
+1. 访问：https://github.com/gradle/gradle/raw/v8.5.0/gradle/wrapper/gradle-wrapper.jar
+2. 保存到：`gradle\wrapper\gradle-wrapper.jar`
+
+然后编译：
+
+```powershell
 build.bat
 ```
 
@@ -89,14 +112,6 @@ cd [KookBC目录]
 java -jar kookbc-0.33.0.jar
 ```
 
-### 一键操作
-
-也可以直接运行：
-
-```powershell
-build-and-install.bat
-```
-
 ---
 
 ## 配置说明
@@ -110,8 +125,6 @@ build-and-install.bat
 ### 插件配置
 
 插件无需额外配置，开箱即用。
-
-如需自定义音乐源，请参考 [开发指南](#开发指南)。
 
 ---
 
@@ -142,13 +155,6 @@ build-and-install.bat
 /skip     # 跳过当前歌曲
 /clear    # 清空播放队列
 ```
-
-### 卡片操作
-
-点歌后会显示精美的歌曲卡片，包含：
-- 歌曲封面
-- 歌曲信息（标题、歌手、专辑、时长、来源）
-- 交互按钮（播放、跳过）
 
 ---
 
@@ -185,10 +191,10 @@ kook-bc-musicrot/
 │       └── CommandListener.java     # 命令监听器
 ├── src/main/resources/
 │   └── plugin.yml                   # 插件清单
-├── build.bat                        # 编译脚本
-├── install.bat                      # 安装脚本
-├── build-and-install.bat            # 一键脚本
-├── build.gradle.kts                 # Gradle 配置
+├── build.bat                        # Gradle 编译
+├── build-maven.bat                  # Maven 编译
+├── install.bat                      # 安装插件
+├── setup.bat                        # 环境检查
 └── README.md                        # 说明文档
 ```
 
@@ -201,7 +207,8 @@ kook-bc-musicrot/
 | KookBC | 0.33.0 | KOOK 客户端 |
 | OkHttp | 4.12.0 | HTTP 客户端 |
 | Gson | 2.10.1 | JSON 处理 |
-| Gradle | 8.5 | 构建工具 |
+| Maven | 3.8+ | 构建工具（推荐） |
+| Gradle | 8.5 | 构建工具（备选） |
 
 ### 核心组件
 
@@ -229,101 +236,68 @@ kook-bc-musicrot/
 
 ### 对接真实音乐API
 
-当前版本使用简化数据，如需对接真实API，请修改 `MusicParser.java`：
-
-#### 网易云音乐API
-
-```java
-public Song parseNetease(String input) throws IOException {
-    // 调用网易云音乐API
-    String url = "https://music.163.com/api/song/detail?ids=" + songId;
-    String response = get(url);
-    // 解析JSON返回Song对象
-    return song;
-}
-```
-
-#### QQ音乐API
-
-```java
-public Song parseQQ(String input) throws IOException {
-    // 调用QQ音乐API
-    String url = "https://c.y.qq.com/v8/fcg-bin/fcg_v8_song_detail.fcg?songmid=" + songId;
-    String response = get(url);
-    // 解析JSON返回Song对象
-    return song;
-}
-```
-
-#### Bilibili API
-
-```java
-public Song parseBilibili(String input) throws IOException {
-    // 调用Bilibili API
-    String url = "https://api.bilibili.com/x/web-interface/view?bvid=" + bvid;
-    String response = get(url);
-    // 解析JSON返回Song对象
-    return song;
-}
-```
-
-### 添加新音乐平台
-
-1. 在 `MusicParser` 中添加新的解析方法
-2. 在 `CommandListener` 中注册新的命令
-3. 在 `CardGenerator` 中更新来源名称映射
-
-### 扩展功能
-
-- 添加歌词显示功能
-- 支持歌单批量导入
-- 添加音量控制
-- 支持播放历史
-- 添加用户点歌统计
+当前版本使用简化数据，如需对接真实API，请修改 `MusicParser.java`。
 
 ---
 
 ## 常见问题
 
-### Q1: 编译失败，提示找不到 Java？
+### Q1: gradlew.bat 闪退？
 
-**A**: 确保已安装 Java 11 或更高版本，并设置 JAVA_HOME 环境变量。
+**A**: 这是缺少 `gradle-wrapper.jar` 文件导致的。
+
+**解决方法**：
+
+**方法 1**：使用 Maven 编译（推荐）
+```powershell
+build-maven.bat
+install.bat
+```
+
+**方法 2**：手动下载 gradle-wrapper.jar
+1. 访问：https://github.com/gradle/gradle/raw/v8.5.0/gradle/wrapper/gradle-wrapper.jar
+2. 保存到：`gradle\wrapper\gradle-wrapper.jar`
+3. 运行：`build.bat`
+
+### Q2: 编译失败，提示找不到 Java？
+
+**A**: 确保已安装 Java 11 或更高版本。
 
 ```powershell
 java -version
 ```
 
-### Q2: 编译失败，提示找不到 gradle-wrapper.jar？
+### Q3: Maven 命令找不到？
 
-**A**: 运行 `gradlew.bat` 下载必要的依赖。
+**A**: 需要先安装 Maven 3.8+。
 
-### Q3: 点歌后没有播放？
+下载地址：https://maven.apache.org/download.cgi
 
-**A**: 当前版本使用模拟数据，实际播放需要对接真实的音乐API，请参考 [开发指南](#开发指南)。
+安装后验证：
+```powershell
+mvn -version
+```
 
-### Q4: 如何配置音乐API？
+### Q4: 点歌后没有播放？
 
-**A**: 修改 `MusicParser.java`，添加真实的API调用和Token配置。
+**A**: 当前版本使用模拟数据，实际播放需要对接真实的音乐API。
 
-### Q5: KookBC 启动后没有加载插件？
+### Q5: 如何配置音乐API？
+
+**A**: 修改 `MusicParser.java`，添加真实的API调用。
+
+### Q6: KookBC 启动后没有加载插件？
 
 **A**:
 1. 检查 JAR 文件是否在 `plugins` 文件夹
 2. 检查 KookBC 版本是否为 0.33.0 或更高
-3. 查看 KookBC 控制台日志，寻找错误信息
-
-### Q6: 命令没有响应？
-
-**A**:
-1. 检查 Bot 是否有发送消息权限
-2. 检查命令格式是否正确
-3. 查看 Bot 日志，寻找错误信息
+3. 查看 KookBC 控制台日志
 
 ### Q7: 如何更新插件？
 
 **A**:
 1. 拉取最新代码：`git pull`
-2. 重新编译：`build.bat`
+2. 重新编译：`build-maven.bat`
 3. 重新安装：`install.bat`
 4. 重启 KookBC
 
@@ -339,15 +313,9 @@ java -version
 
 ### 性能优化
 
-1. **异步处理** - 所有网络请求使用异步处理，避免阻塞
+1. **异步处理** - 所有网络请求使用异步处理
 2. **缓存机制** - 可以添加缓存机制，减少重复请求
 3. **并发控制** - 合理控制并发请求数量
-
-### 安全建议
-
-1. **Token 保护** - 不要在代码中硬编码敏感信息
-2. **输入验证** - 对用户输入进行验证，防止注入攻击
-3. **错误处理** - 完善的错误处理，避免泄露敏感信息
 
 ---
 
@@ -359,6 +327,7 @@ java -version
 - [x] 队列管理系统
 - [x] 卡片显示功能
 - [x] 播放控制命令
+- [x] Maven 编译支持
 
 ### 待开发
 - [ ] 对接真实音乐API
@@ -367,10 +336,6 @@ java -version
 - [ ] 搜索功能增强
 - [ ] 音频格式转换
 - [ ] 音量控制
-- [ ] 播放历史记录
-- [ ] 用户点歌统计
-- [ ] 权限管理
-- [ ] 自定义命令
 
 ---
 
